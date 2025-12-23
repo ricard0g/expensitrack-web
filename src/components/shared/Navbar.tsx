@@ -6,9 +6,9 @@ import { useState } from 'react';
 
 export function Navbar() {
     const [openCard, setOpenCard] = useState(false);
-    const { firstName, middleName, lastName } = useLoaderData();
+    const { userData } = useLoaderData();
 
-    console.log(firstName)
+    const { firstName, middleName, lastName } = userData;
 
     const handleClick = () => setOpenCard(!openCard);
 
@@ -23,14 +23,14 @@ export function Navbar() {
                             onClick={() => handleClick()}
                             variant="outline"
                             size="icon"
-                            className='border-transparent hover:border-accent-color'
+                            className='bg-transparent shadow-none border-transparent hover:border-accent-color hover:shadow-xs'
                         >
                             <CircleUserRound />
                         </Button>
                     </li>
                 </ul>
             </nav>
-            <Card className={`absolute block right-0 top-full mt-2 w-72 bg-gray-100 border-gray-200  ${openCard ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200`}>
+            <Card className={`absolute block right-0 top-full mt-2 w-64 bg-gray-100 border-gray-200  ${openCard ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200`}>
                 <CardHeader>
                     <CardTitle className='mb-1.5 text-zinc-800'>Your Data:</CardTitle>
                 </CardHeader>
