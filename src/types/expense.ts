@@ -9,3 +9,8 @@ export interface Expense {
     expenseAmount: number,
     date: Date,
 }
+
+export interface ExpenseByCategory {
+    categoryName: string,
+    categoryTotalAmount: number
+}

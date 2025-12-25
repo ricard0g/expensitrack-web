@@ -5,14 +5,30 @@ import App from './App.tsx'
 import { createBrowserRouter } from 'react-router'
 import { RouterProvider } from 'react-router'
 import type { User } from "./types/user.ts"
-import type { Expense } from './types/expense.ts'
+import type { Expense, ExpenseByCategory } from './types/expense.ts'
 
 const headers = {
     "Content-Type": "application/json",
     "API_KEY": import.meta.env.VITE_APP_API_KEY
 }
 
-const getAllExpenses = async () => {
+const getExpensesByCategory = async (): Promise<ExpenseByCategory[] | Error> => {
+    try {
+        const response = await fetch("http://localhost:8080/api/expenses/category-totals", {
+            headers: headers
+        })
+
+        if (!response) throw new Error("❌ Response fetching expenses by category Failed!");
+
+        const expensesByCategory = await response.json();
+
+        return expensesByCategory
+    } catch (e) {
+        return new Error("Request failed when trying to get expenses by category" + e)
+    }
+}
+
+const getAllExpenses = async (): Promise<Expense[] | Error> => {
     try {
         const response = await fetch("http://localhost:8080/api/expenses/", {
             headers: headers
@@ -28,7 +44,7 @@ const getAllExpenses = async () => {
     }
 }
 
-const getUserData = async () => {
+const getUserData = async (): Promise<User | Error> => {
     try {
         const response = await fetch("http://localhost:8080/api/user/demo", {
             method: "GET",
@@ -55,7 +71,7 @@ const router = createBrowserRouter([
         element: <App />,
         loader: async () => {
 
-            return { userData: await getUserData(), allExpenses: await getAllExpenses() };
+            return { userData: await getUserData(), allExpenses: await getAllExpenses(), expensesByCategory: await getExpensesByCategory() };
         }
     }
 ])

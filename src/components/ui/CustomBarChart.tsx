@@ -1,10 +1,11 @@
 import { currencyFormatter } from "@/utils/currencyFormatter";
-import type { Expense } from "@/types/expense";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { ChartContainer, type ChartConfig, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from "@/components/ui/chart";
+import type { ExpenseByCategory } from "@/types/expense";
+
 
 interface CustomBarChartProps {
-    expenses: Expense[]
+    expensesByCategory: ExpenseByCategory[]
 }
 
 // XAxis -> Expense Name
@@ -16,12 +17,11 @@ const chartConfig = {
     }
 } satisfies ChartConfig
 
-export function CustomBarChart({ expenses }: CustomBarChartProps) {
+export function CustomBarChart({ expensesByCategory }: CustomBarChartProps) {
 
-    const chartData = expenses.map((expense) => ({
-        name: expense.expenseName,
-        amount: expense.expenseAmount,
-        date: expense.date,
+    const chartData = expensesByCategory.map((expense) => ({
+        name: expense.categoryName,
+        amount: expense.categoryTotalAmount,
         fill: "#ea9280"
     }));
 
