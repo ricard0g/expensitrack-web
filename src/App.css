@@ -22,13 +22,17 @@
         inset 0px 4px 4px #ffffff50,
         0px 4px 6px #00000030,
         0px 6px 10px #00000015;
+
+    --shadow-cool-inner:
+        inset 0 -4px 7px #00000030,
+        inset 0 4px 7px #00000030
 }
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
     font-size: 16px;
-    background-color: rgb(246, 246, 246);
+    background-color: rgb(235, 235, 235);
 }
 
 #root {
@@ -163,6 +167,6 @@
     /* } */
 
     body {
-        @apply bg-background text-foreground;
+        @apply  text-foreground;
     }
 }

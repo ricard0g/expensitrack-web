@@ -1,5 +1,6 @@
 import { currencyFormatter } from "@/utils/currencyFormatter";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Card, CardHeader, CardTitle, CardContent } from "./card";
 import { ChartContainer, type ChartConfig, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from "@/components/ui/chart";
 import type { ExpenseByCategory } from "@/types/expense";
 
@@ -26,25 +27,34 @@ export function CustomBarChart({ expensesByCategory }: CustomBarChartProps) {
     }));
 
     return (
-        <ChartContainer config={chartConfig} className="min-h-50 w-full">
-            <BarChart accessibilityLayer data={chartData}>
-                <CartesianGrid vertical={false} />
-                <XAxis
-                    dataKey="name"
-                    tickMargin={10}
-                    axisLine={false}
-                    tickFormatter={(value) => value.length > 10 ? value.slice(0, 5) : value}
-                />
-                <YAxis
-                    tickLine={false}
-                    tickMargin={10}
-                    axisLine={false}
-                    dataKey="amount"
-                />
-                <ChartTooltip formatter={(value) => typeof value === 'number' && currencyFormatter(value)} content={<ChartTooltipContent />} />
-                <ChartLegend content={<ChartLegendContent />} />
-                <Bar dataKey="amount" fill="var(--color-month)" radius={4} />
-            </BarChart>
-        </ChartContainer>
+        <Card className="border-0 shadow-none bg-transparent">
+            <CardHeader>
+                <CardTitle>Expenses Amount By Category</CardTitle>
+            </CardHeader>
+
+            <CardContent>
+                <ChartContainer config={chartConfig} className="min-h-52 w-full">
+                    <BarChart accessibilityLayer data={chartData}>
+                        <CartesianGrid vertical={false} />
+                        <XAxis
+                            dataKey="name"
+                            tickMargin={10}
+                            axisLine={false}
+                            tickFormatter={(value) => value.length > 10 ? value.slice(0, 5) : value}
+                        />
+                        <YAxis
+                            tickLine={false}
+                            tickMargin={10}
+                            axisLine={false}
+                            dataKey="amount"
+                        />
+                        <ChartTooltip formatter={(value) => typeof value === 'number' && currencyFormatter(value)} content={<ChartTooltipContent />} />
+                        <ChartLegend content={<ChartLegendContent />} />
+                        <Bar dataKey="amount" fill="var(--color-month)" radius={4} />
+                    </BarChart>
+                </ChartContainer>
+
+            </CardContent>
+        </Card>
     )
 }
