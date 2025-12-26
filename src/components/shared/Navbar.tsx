@@ -16,9 +16,7 @@ export function Navbar() {
         <header className='relative flex items-centery justify-center mx-auto '>
             <nav className='flex items-center justify-center w-full py-2 px-4 bg-gray-100 border-gray-200 border rounded-xl shadow-cool-subtle'>
                 <ul className='flex items-center justify-between w-full'>
-                    <li>Expensitrack Dashboard</li>
                     <li className='flex items-center justify-center gap-x-2'>
-                        <span className='hidden md:inline'>Hi {firstName}!</span>
                         <Button
                             onClick={() => handleClick()}
                             variant="outline"
@@ -26,6 +24,12 @@ export function Navbar() {
                             className='bg-transparent shadow-none border-transparent hover:border-accent-color hover:shadow-xs'
                         >
                             <CircleUserRound />
+                        </Button>
+                        <span className='hidden md:inline'>Hi {firstName}!</span>
+                    </li>
+                    <li>
+                        <Button variant="default" className='bg-linear-to-br from-accent-color-ligher to-accent-color  active:shadow-cool-inner shadow-cool-subtle'>
+                            Add Expense
                         </Button>
                     </li>
                 </ul>

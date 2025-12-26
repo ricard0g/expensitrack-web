@@ -19,7 +19,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                 {table.getHeaderGroups().map((headerGroup) => (
                     <TableRow key={headerGroup.id}>
                         {headerGroup.headers.map((header) => (
-                            <TableHead key={header.id}>
+                            <TableHead className="text-center font-bold" key={header.id}>
                                 {header.isPlaceholder ? null : flexRender(
                                     header.column.columnDef.header,
                                     header.getContext()
@@ -31,9 +31,9 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             </TableHeader>
             <TableBody>
                 {table.getRowModel().rows?.length ? table.getRowModel().rows.map((row) => (
-                    <TableRow key={row.id}>
+                    <TableRow className="border-b border-b-zinc-400" key={row.id} data-state={row.getIsSelected() && "selected"}>
                         {row.getVisibleCells().map((cell) => (
-                            <TableCell key={cell.id}>
+                            <TableCell className={`py-3 text-center ${cell.column.id === "actions" && 'max-w-8 text-left'} ${cell.column.id === "id" && 'max-w-14'}`} key={cell.id}>
                                 {
                                     flexRender(
                                         cell.column.columnDef.cell,
