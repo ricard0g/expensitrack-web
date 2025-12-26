@@ -15,6 +15,10 @@ export const columns: ColumnDef<Expense>[] = [
         )
     },
     {
+        accessorKey: "date",
+        header: "Date"
+    },
+    {
         accessorKey: "userFirstName",
         header: "User First Name"
     },

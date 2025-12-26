@@ -45,19 +45,30 @@ const getUserData = async (): Promise<User> => {
     return await response.json();
 }
 
+const getTotalSpent = async (): Promise<number> => {
+    const response = await fetch(`${APP_HOST}/api/expenses/total`, {
+        headers: headers
+    })
+
+    if (!response.ok) throw response
+
+    return await response.json()
+}
+
 const router = createBrowserRouter([
     {
         path: "/",
         element: <App />,
         ErrorBoundary: DashboardErrorBoundary,
         loader: async () => {
-            const [userData, allExpenses, expensesByCategory] = await Promise.all([
+            const [userData, allExpenses, expensesByCategory, totalSpent] = await Promise.all([
                 getUserData(),
                 getAllExpenses(),
-                getExpensesByCategory()
+                getExpensesByCategory(),
+                getTotalSpent()
             ])
 
-            return {userData, allExpenses, expensesByCategory};
+            return {userData, allExpenses, expensesByCategory, totalSpent};
         }
     }
 ])

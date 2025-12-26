@@ -28,13 +28,13 @@ export function Navbar() {
                         <span className='hidden md:inline'>Hi {firstName}!</span>
                     </li>
                     <li>
-                        <Button variant="default" className='bg-linear-to-br from-accent-color-ligher to-accent-color  active:shadow-cool-inner shadow-cool-subtle'>
+                        <Button variant="default" className='bg-linear-to-br from-accent-color-ligher to-accent-color shadow-cool-subtle active:shadow-cool-inner-subtle hover:shadow-cool-strong'>
                             Add Expense
                         </Button>
                     </li>
                 </ul>
             </nav>
-            <Card className={`absolute block right-0 top-full mt-2 w-64 bg-gray-100 border-gray-200  ${openCard ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200`}>
+            <Card className={`absolute block left-0 top-full mt-2 w-64 bg-gray-100 border-gray-200  ${openCard ? 'opacity-100 z-10' : 'opacity-0'} transition-opacity duration-200`}>
                 <CardHeader>
                     <CardTitle className='mb-1.5 text-zinc-800'>Your Data:</CardTitle>
                 </CardHeader>

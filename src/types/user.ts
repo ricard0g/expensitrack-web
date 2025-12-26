@@ -1,7 +1,7 @@
 export interface User {
-    id: String,
-    firstName: String,
-    middleName: String,
-    lastName: String,
-    totalBudget: Number
+    id: string,
+    firstName: string,
+    middleName: string,
+    lastName: string,
+    totalBudget: number
 }

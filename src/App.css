@@ -23,9 +23,14 @@
         0px 4px 6px #00000030,
         0px 6px 10px #00000015;
 
-    --shadow-cool-inner:
-        inset 0 -4px 7px #00000030,
-        inset 0 4px 7px #00000030
+
+    --shadow-cool-inner-subtle:
+        inset 0 -4px 7px #00000010,
+        inset 0 4px 7px #00000030;
+
+    --shadow-cool-inner-strong:
+        inset 0 -7px 7px #00000010,
+        inset 0 7px 7px #00000030;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -33,6 +38,7 @@
 :root {
     font-size: 16px;
     background-color: rgb(235, 235, 235);
+    --my-grid-rows: 80px repeat(2, minmax(0, 1fr))
 }
 
 #root {
@@ -167,6 +173,6 @@
     /* } */
 
     body {
-        @apply  text-foreground;
+        @apply text-foreground;
     }
 }
