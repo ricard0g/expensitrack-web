@@ -29,7 +29,7 @@ export function CustomRadarChart({ expensesByCategory }: CustomRadarChartProps) 
                 <CardTitle>Area of Expenses per category</CardTitle>
             </CardHeader>
             <CardContent>
-                <ChartContainer config={chartConfig} className="min-h-52 aspect-square w-full">
+                <ChartContainer config={chartConfig} className="min-h-52 max-h-125 aspect-square w-full">
                     <RadarChart accessibilityLayer data={chartData}>
                         <ChartLegend content={<ChartLegendContent />} />
                         <ChartTooltip formatter={(value) => typeof value == 'number' && currencyFormatter(value)} content={<ChartTooltipContent />} />

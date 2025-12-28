@@ -38,7 +38,7 @@
 :root {
     font-size: 16px;
     background-color: rgb(235, 235, 235);
-    --my-grid-rows: 80px repeat(2, minmax(0, 1fr))
+    --my-grid-rows: 80px repeat(2, 1fr);
 }
 
 #root {

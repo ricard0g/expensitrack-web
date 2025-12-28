@@ -1,80 +1,138 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
-import { createBrowserRouter } from 'react-router'
-import { RouterProvider } from 'react-router'
-import type { User } from "./types/user.ts"
-import type { Expense, ExpenseByCategory } from './types/expense.ts'
-import { DashboardErrorBoundary } from './components/dashboard/DashboardErrorBoundary.tsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.tsx";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router";
+import type { User } from "./types/user.ts";
+import type { Expense, ExpenseByCategory } from "./types/expense.ts";
+import { DashboardErrorBoundary } from "./components/dashboard/DashboardErrorBoundary.tsx";
+import type { ExpenseCategory } from "./types/category.ts";
 
 const APP_HOST = import.meta.env.VITE_APP_HOST;
 
 const headers = {
-    "Content-Type": "application/json",
-    "API_KEY": import.meta.env.VITE_APP_API_KEY
-}
+	"Content-Type": "application/json",
+	API_KEY: import.meta.env.VITE_APP_API_KEY,
+};
+
+const getCategories = async (): Promise<ExpenseCategory[]> => {
+	const response = await fetch(`${APP_HOST}/api/categories/`, {
+		headers: headers,
+	});
+
+	if (!response.ok) throw response;
+
+	return await response.json();
+};
 
 const getExpensesByCategory = async (): Promise<ExpenseByCategory[]> => {
-    const response = await fetch(`${APP_HOST}/api/expenses/category-totals`, {
-        headers: headers
-    });
+	const response = await fetch(`${APP_HOST}/api/expenses/category-totals`, {
+		headers: headers,
+	});
 
-    if (!response.ok) throw response;
+	if (!response.ok) throw response;
 
-    return await response.json();
-}
+	return await response.json();
+};
 
 const getAllExpenses = async (): Promise<Expense[]> => {
-    const response = await fetch(`${APP_HOST}/api/expenses/`, {
-        headers: headers
-    });
+	const response = await fetch(`${APP_HOST}/api/expenses/`, {
+		headers: headers,
+	});
 
-    if (!response.ok) throw response;
+	if (!response.ok) throw response;
 
-    return await response.json();
-}
+	return await response.json();
+};
 
 const getUserData = async (): Promise<User> => {
-    const response = await fetch(`${APP_HOST}/api/user/demo`, {
-        headers: headers
-    })
+	const response = await fetch(`${APP_HOST}/api/user/demo`, {
+		headers: headers,
+	});
 
-    if (!response.ok) throw response;
+	if (!response.ok) throw response;
 
-    return await response.json();
-}
+	return await response.json();
+};
 
 const getTotalSpent = async (): Promise<number> => {
-    const response = await fetch(`${APP_HOST}/api/expenses/total`, {
-        headers: headers
-    })
+	const response = await fetch(`${APP_HOST}/api/expenses/total`, {
+		headers: headers,
+	});
 
-    if (!response.ok) throw response
+	if (!response.ok) throw response;
 
-    return await response.json()
-}
+	return await response.json();
+};
+
+const apiRequest = async (url: string, method: string, body?: any) => {
+	const response = await fetch(`${APP_HOST}/api/${url}`, {
+		method: method.toUpperCase(),
+		headers,
+		body: body ? JSON.stringify(body) : undefined,
+	});
+
+	if (!response.ok) throw response;
+	return method === "DELETE" ? true : await response.json();
+};
+
+// Master action that based on intent we execute
+const dashboardAction = async ({ request }: { request: Request }) => {
+	const formData = await request.formData();
+	const intent = formData.get("intent");
+
+	try {
+		switch (intent) {
+			case "createExpense": {
+				const expenseData = {
+					userFirstName: "Ricardo",
+					categoryName: formData.get("category-name"),
+					expenseName: formData.get("expense-name"),
+					expenseDescription: formData.get("expense-description"),
+					expenseAmount: Number(formData.get("expense-amount")),
+					date: formData.get("date"),
+				};
+
+				await apiRequest("expenses/", "POST", expenseData);
+				return {
+					success: true,
+					message: "Expense Created Successfully",
+				};
+			}
+
+			default:
+				throw new Error("Uknown Intent");
+		}
+	} catch (e) {
+		console.error(e);
+		return { error: "Operation Failed" };
+	}
+};
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <App />,
-        ErrorBoundary: DashboardErrorBoundary,
-        loader: async () => {
-            const [userData, allExpenses, expensesByCategory, totalSpent] = await Promise.all([
-                getUserData(),
-                getAllExpenses(),
-                getExpensesByCategory(),
-                getTotalSpent()
-            ])
+	{
+		path: "/",
+		element: <App />,
+		ErrorBoundary: DashboardErrorBoundary,
+		loader: async () => {
+			const [userData, allExpenses, expensesByCategory, totalSpent, categories] =
+				await Promise.all([
+					getUserData(),
+					getAllExpenses(),
+					getExpensesByCategory(),
+					getTotalSpent(),
+					getCategories(),
+				]);
 
-            return {userData, allExpenses, expensesByCategory, totalSpent};
-        }
-    }
-])
+			return { userData, allExpenses, expensesByCategory, totalSpent, categories };
+		},
+		action: dashboardAction,
+	},
+]);
 
-createRoot(document.getElementById('root')!).render(
-    <StrictMode>
-        <RouterProvider router={router} />
-    </StrictMode>,
-)
+createRoot(document.getElementById("root")!).render(
+	<StrictMode>
+		<RouterProvider router={router} />
+	</StrictMode>
+);

@@ -33,7 +33,7 @@ export function CustomBarChart({ expensesByCategory }: CustomBarChartProps) {
             </CardHeader>
 
             <CardContent>
-                <ChartContainer config={chartConfig} className="min-h-52 w-full">
+                <ChartContainer config={chartConfig} className="min-h-52 max-h-125 aspect-square w-full">
                     <BarChart accessibilityLayer data={chartData}>
                         <CartesianGrid vertical={false} />
                         <XAxis

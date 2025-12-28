@@ -33,7 +33,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                 {table.getRowModel().rows?.length ? table.getRowModel().rows.map((row) => (
                     <TableRow className="border-b border-b-zinc-400" key={row.id} data-state={row.getIsSelected() && "selected"}>
                         {row.getVisibleCells().map((cell) => (
-                            <TableCell className={`py-3 text-center ${cell.column.id === "actions" && 'max-w-8 text-left'} ${cell.column.id === "id" && 'max-w-14'}`} key={cell.id}>
+                            <TableCell className={`py-3 text-center text-zinc-700 ${cell.column.id === "actions" && 'max-w-8 text-left'} ${cell.column.id === "id" && 'max-w-14'} ${cell.column.id === "expenseAmount" && 'font-bold'} `} key={cell.id}>
                                 {
                                     flexRender(
                                         cell.column.columnDef.cell,

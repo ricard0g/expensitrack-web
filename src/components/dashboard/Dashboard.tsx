@@ -25,8 +25,8 @@ export function Dashboard() {
     const { expenseName, expenseAmount } = allExpenses.reduce((lastExpense, currentExpense) => currentExpense.date > lastExpense.date ? currentExpense : lastExpense, allExpenses[0]);
 
     return (
-        <section className="grid grid-cols-[repeat(10, 1fr)] grid-rows-[--my-grid-rows] gap-x-5 gap-y-6 h-auto my-2 pt-2 pb-6">
-            <div className="flex items-center justify-start col-span-3 max-h-20 h-20 bg-linear-to-tr from-gray-100 to-accent-color-lightest rounded-md shadow-cool-subtle">
+        <section className="grid grid-cols-[repeat(10, 1fr)] grid-rows-[--my-grid-rows] gap-x-5 gap-y-6 my-2 pt-2 pb-6">
+            <div className="flex items-center justify-start col-span-3 max-h-20 h-20 py-2 px-8 bg-linear-to-tr from-gray-100 to-accent-color-lightest rounded-md shadow-cool-subtle">
                 <div className="flex items-center justify-center gap-x-4 w-full rounded-md">
                     <div className="flex items-center justify-center gap-x-2">
                         <PiggyBank className="h-7 w-7" />
@@ -37,7 +37,7 @@ export function Dashboard() {
                     </div>
                 </div>
             </div>
-            <div className="flex items-center justify-start col-span-3 max-h-20 h-20 bg-linear-to-bl from-gray-100 to-accent-color-lightest rounded-md shadow-cool-subtle">
+            <div className="flex items-center justify-start col-span-3 max-h-20 h-20 py-2 px-8 bg-linear-to-bl from-gray-100 to-accent-color-lightest rounded-md shadow-cool-subtle">
                 <div className=" flex items-center justify-center gap-x-4 w-full rounded-md">
                     <div className="flex items-center justify-center gap-x-2">
                         <HandCoins className="h-7 w-7"/>
@@ -48,8 +48,8 @@ export function Dashboard() {
                     </div>
                 </div>
             </div>
-            <div className="flex items-center justify-start col-span-4 max-h-20 h-20 p-8 bg-linear-to-br from-gray-100 to-accent-color-lightest rounded-md shadow-cool-subtle">
-                <div className="flex items-center justify-center gap-x-8">
+            <div className="flex items-center justify-start col-span-4 max-h-20 h-20 py-2 px-8 bg-linear-to-br from-gray-100 to-accent-color-lightest rounded-md shadow-cool-subtle">
+                <div className="flex items-center justify-center gap-x-20 w-full">
                     <div className="flex items-center justify-center gap-x-4">
                         <History className="h-7 w-7" />
                         <span className="text-xl">Last Expense:</span>
@@ -60,10 +60,10 @@ export function Dashboard() {
 
                 </div>
             </div>
-            <div className="col-span-6 bg-linear-to-br from-70% from-white  to-accent-color-lightest border border-gray-200 rounded-xl p-3 shadow-cool-strong ">
+            <div className="col-span-6 h-full bg-linear-to-br from-70% from-white  to-accent-color-lightest border border-gray-200 rounded-xl  shadow-cool-strong ">
                 <CustomBarChart expensesByCategory={expensesByCategory} />
             </div>
-            <div className="col-span-4 bg-linear-to-bl from-40% from-gray-100 to-accent-color-lightest border border-gray-200 rounded-xl p-3 shadow-cool-subtle ">
+            <div className="col-span-4 h-fit bg-linear-to-bl from-40% from-gray-100 to-accent-color-lightest border border-gray-200 rounded-xl p-3 shadow-cool-subtle ">
                 <CustomRadarChart expensesByCategory={expensesByCategory} />
             </div>
             <div className="col-span-10 h-fit bg-zinc-200 border border-gray-200 rounded-xl p-8 shadow-cool-inner-strong overflow-hidden">

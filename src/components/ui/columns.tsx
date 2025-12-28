@@ -56,11 +56,21 @@ export const columns: ColumnDef<Expense>[] = [
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuContent className="py-1.5 px-3 bg-zinc-800 rounded-md shadow-cool-subtle transition-all duration-200" align="end">
+                        <DropdownMenuLabel className="py-1 text-zinc-200">Actions</DropdownMenuLabel>
+                        <div className="h-px w-full border-t border-t-zinc-400"></div>
                         <DropdownMenuItem
                             onClick={() => navigator.clipboard.writeText(expense.id)}
-                        >Copy expense ID</DropdownMenuItem>
+                            className="cursor-pointer text-zinc-300 hover:outline-0 hover:bg-zinc-600 py-1.5 px-3 my-1 rounded-md transition-all duration-200"
+                        >Copy Expense ID</DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => navigator.clipboard.writeText(expense.id)}
+                            className="cursor-pointer text-zinc-300 hover:outline-0 hover:bg-zinc-600 py-1.5 px-3 my-1 rounded-md transition-all duration-200"
+                        >Delete Expense</DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => navigator.clipboard.writeText(expense.id)}
+                            className="cursor-pointer text-zinc-300 hover:outline-0 hover:bg-zinc-600 py-1.5 px-3 my-1 rounded-md transition-all duration-200"
+                        >Update Expense</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
