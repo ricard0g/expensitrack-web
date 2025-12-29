@@ -1,4 +1,4 @@
-import { CircleUserRound } from "lucide-react";
+import { CircleUserRound, CheckCircle2, AlertCircle } from "lucide-react";
 import { Button } from "../ui/button";
 import { CardHeader, CardTitle, Card, CardContent } from "../ui/card";
 import {
@@ -10,10 +10,11 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "../ui/dialog";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { useLoaderData, Form, useFetcher } from "react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
 	Select,
 	SelectContent,
@@ -33,9 +34,34 @@ interface LoaderData {
 
 export function Navbar() {
 	const [openCard, setOpenCard] = useState(false);
+	const [showSuccess, setShowSuccess] = useState(false);
+	const [showError, setShowError] = useState(false);
 	const { userData, categories } = useLoaderData() as LoaderData;
-	const fetcher = useFetcher();
-    console.log(categories);
+	const fetcher = useFetcher<{
+		success?: boolean;
+		message?: string;
+		error?: string;
+	}>();
+	console.log(categories);
+
+	useEffect(() => {
+		if (fetcher.state === "submitting") {
+			setShowSuccess(false);
+			setShowError(false);
+		}
+
+		if (fetcher.state === "idle" && fetcher.data) {
+			if (fetcher.data.success) {
+				setShowSuccess(true);
+				const timer = setTimeout(() => setShowSuccess(false), 8000);
+				return () => clearTimeout(timer);
+			} else if (fetcher.data.error) {
+				setShowError(true);
+				const timer = setTimeout(() => setShowError(false), 8000);
+				return () => clearTimeout(timer);
+			}
+		}
+	}, [fetcher.state, fetcher.data]);
 
 	const { firstName, middleName, lastName } = userData;
 
@@ -68,7 +94,7 @@ export function Navbar() {
 									Add Expense
 								</Button>
 							</DialogTrigger>
-							<DialogContent className="sm:max-w-[425px]">
+							<DialogContent className="sm:max-w-[425px] border-0 shadow-cool-medium">
 								<DialogHeader>
 									<DialogTitle>Add Expense</DialogTitle>
 									<DialogDescription>
@@ -76,6 +102,24 @@ export function Navbar() {
 										save when you're done.
 									</DialogDescription>
 								</DialogHeader>
+								{showSuccess && (
+									<Alert className="border-green-500/50 text-green-600 dark:text-green-500 [&>svg]:text-green-600">
+										<CheckCircle2 className="h-4 w-4" />
+										<AlertTitle>Success</AlertTitle>
+										<AlertDescription>
+											{fetcher.data?.message}
+										</AlertDescription>
+									</Alert>
+								)}
+								{showError && (
+									<Alert variant="destructive">
+										<AlertCircle className="h-4 w-4" />
+										<AlertTitle>Error</AlertTitle>
+										<AlertDescription>
+											{fetcher.data?.error}
+										</AlertDescription>
+									</Alert>
+								)}
 								<fetcher.Form
 									method="POST"
 									className="grid gap-4 py-4"
@@ -107,7 +151,7 @@ export function Navbar() {
 										>
 											Category
 										</Label>
-										<Select>
+										<Select name="category-name">
 											<SelectTrigger className="col-span-3 w-full">
 												<SelectValue placeholder="Select a Category" />
 											</SelectTrigger>
@@ -119,11 +163,16 @@ export function Navbar() {
 													{categories.map(
 														(category) => (
 															<SelectItem
+																key={
+																	category.id
+																}
 																value={
 																	category.categoryName
 																}
 															>
-																{category.categoryName}
+																{
+																	category.categoryName
+																}
 															</SelectItem>
 														)
 													)}
@@ -182,6 +231,7 @@ export function Navbar() {
 										<Button
 											disabled={fetcher.state !== "idle"}
 											type="submit"
+											className="bg-linear-to-br from-accent-color-ligher to-accent-color shadow-cool-subtle active:shadow-cool-inner-subtle"
 										>
 											{fetcher.state !== "idle"
 												? "Saving..."

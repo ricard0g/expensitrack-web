@@ -7,6 +7,7 @@ import { columns } from "../ui/columns";
 import { PiggyBank, HandCoins, History } from "lucide-react";
 import type { User } from "@/types/user";
 import { currencyFormatter } from "@/utils/currencyFormatter";
+import { useState } from "react";
 
 
 interface LoaderExpenses {
@@ -17,6 +18,8 @@ interface LoaderExpenses {
 }
 
 export function Dashboard() {
+    const [showDeleteSuccess, setShowDeleteSuccess] = useState<boolean>(false);
+    const [showDeleteError, setShowDeleteError] = useState<boolean>(false);
     const { userData, allExpenses, expensesByCategory, totalSpent } = useLoaderData<LoaderExpenses>();
 
     // This calculation can and probably be done through the backend, but since it's a simple calculation we can do it here
@@ -67,7 +70,7 @@ export function Dashboard() {
                 <CustomRadarChart expensesByCategory={expensesByCategory} />
             </div>
             <div className="col-span-10 h-fit bg-zinc-200 border border-gray-200 rounded-xl p-8 shadow-cool-inner-strong overflow-hidden">
-                <DataTable columns={columns} data={allExpenses} />
+                <DataTable columns={columns} data={allExpenses} showDeleteSuccess={showDeleteSuccess} showDeleteError={showDeleteError} setShowDeleteSuccess={setShowDeleteSuccess}  />
             </div>
         </section>
     )

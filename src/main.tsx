@@ -101,6 +101,19 @@ const dashboardAction = async ({ request }: { request: Request }) => {
 				};
 			}
 
+			case "deleteExpense": {
+				console.log(formData)
+
+				const expenseId = formData.get("expense-id");
+
+				await apiRequest(`expenses/${expenseId}`, "DELETE");
+
+				return {
+					success: true,
+					message: "Expense Deleted Successfully",
+				};
+			}
+
 			default:
 				throw new Error("Uknown Intent");
 		}
@@ -116,16 +129,27 @@ const router = createBrowserRouter([
 		element: <App />,
 		ErrorBoundary: DashboardErrorBoundary,
 		loader: async () => {
-			const [userData, allExpenses, expensesByCategory, totalSpent, categories] =
-				await Promise.all([
-					getUserData(),
-					getAllExpenses(),
-					getExpensesByCategory(),
-					getTotalSpent(),
-					getCategories(),
-				]);
+			const [
+				userData,
+				allExpenses,
+				expensesByCategory,
+				totalSpent,
+				categories,
+			] = await Promise.all([
+				getUserData(),
+				getAllExpenses(),
+				getExpensesByCategory(),
+				getTotalSpent(),
+				getCategories(),
+			]);
 
-			return { userData, allExpenses, expensesByCategory, totalSpent, categories };
+			return {
+				userData,
+				allExpenses,
+				expensesByCategory,
+				totalSpent,
+				categories,
+			};
 		},
 		action: dashboardAction,
 	},
