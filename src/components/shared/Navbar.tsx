@@ -13,7 +13,7 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { useLoaderData, Form, useFetcher } from "react-router";
+import { useLoaderData, useFetcher } from "react-router";
 import { useState, useEffect } from "react";
 import {
 	Select,
@@ -42,24 +42,20 @@ export function Navbar() {
 		message?: string;
 		error?: string;
 	}>();
-	console.log(categories);
 
 	useEffect(() => {
-		if (fetcher.state === "submitting") {
-			setShowSuccess(false);
-			setShowError(false);
-		}
-
-		if (fetcher.state === "idle" && fetcher.data) {
+		if (fetcher.state === 'idle' && fetcher.data) {
 			if (fetcher.data.success) {
 				setShowSuccess(true);
+				setShowError(false);
 				const timer = setTimeout(() => setShowSuccess(false), 8000);
 				return () => clearTimeout(timer);
-			} else if (fetcher.data.error) {
-				setShowError(true);
-				const timer = setTimeout(() => setShowError(false), 8000);
-				return () => clearTimeout(timer);
 			}
+		} else if (fetcher.data?.error) {
+			setShowError(true);
+			setShowSuccess(false);
+			const timer = setTimeout(() => setShowError(false));
+			return () => clearTimeout(timer);
 		}
 	}, [fetcher.state, fetcher.data]);
 
