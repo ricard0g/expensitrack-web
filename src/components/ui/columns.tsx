@@ -17,7 +17,7 @@ export const columns: ColumnDef<Expense>[] = [
 	{
 		accessorKey: "id",
 		header: "ID",
-		cell: ({ row }) => <div>{row.original.id.slice(0, 8)}...</div>,
+		cell: ({ row }) => <div>{row.original.id.slice(0, 5)}...</div>,
 	},
 	{
 		accessorKey: "date",

@@ -13,7 +13,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "./table";
-import { useEffect, type Dispatch, type SetStateAction } from "react";
+import { type Dispatch, type SetStateAction } from "react";
 
 declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {
