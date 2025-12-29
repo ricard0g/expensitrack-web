@@ -8,6 +8,7 @@ import type { User } from "./types/user.ts";
 import type { Expense, ExpenseByCategory } from "./types/expense.ts";
 import { DashboardErrorBoundary } from "./components/dashboard/DashboardErrorBoundary.tsx";
 import type { ExpenseCategory } from "./types/category.ts";
+import type { DeletionError } from "./types/deletionError.ts";
 
 const APP_HOST = import.meta.env.VITE_APP_HOST;
 
@@ -74,6 +75,7 @@ const apiRequest = async (url: string, method: string, body?: any) => {
 	});
 
 	if (!response.ok) throw response;
+
 	return method === "DELETE" ? true : await response.json();
 };
 
@@ -102,7 +104,7 @@ const dashboardAction = async ({ request }: { request: Request }) => {
 			}
 
 			case "deleteExpense": {
-				console.log(formData)
+				console.log(formData);
 
 				const expenseId = formData.get("expense-id");
 
@@ -119,7 +121,23 @@ const dashboardAction = async ({ request }: { request: Request }) => {
 		}
 	} catch (e) {
 		console.error(e);
-		return { error: "Operation Failed" };
+		let errorMessage = "Operation Failed";
+
+		if (e instanceof Response) {
+			try {
+				const errorBody: DeletionError = await e.json(); // to get the actual Error Body from our Backend we have to read the body of Response, consume the ReadableStream of bytes sent from the backend, to do this we have to use json()
+
+				if (errorBody && errorBody.message) {
+					errorMessage = errorBody.message;
+				}
+			} catch (parsingError) {
+				console.error("Failed to Parse Backend Error: ", parsingError);
+			}
+		} else if (e instanceof Error) {
+			errorMessage = e.message;
+		}
+
+		return { error: errorMessage };
 	}
 };
 

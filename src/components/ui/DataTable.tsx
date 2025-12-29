@@ -3,6 +3,7 @@ import {
 	useReactTable,
 	getCoreRowModel,
 	flexRender,
+    type RowData,
 } from "@tanstack/react-table";
 import {
 	Table,
@@ -14,33 +15,44 @@ import {
 } from "./table";
 import { useEffect, type Dispatch, type SetStateAction } from "react";
 
+declare module '@tanstack/react-table' {
+  interface TableMeta<TData extends RowData> {
+    setShowDeleteSuccess: Dispatch<SetStateAction<boolean>>;
+    setShowDeleteError: Dispatch<SetStateAction<boolean>>;
+    setDeleteMessage: Dispatch<SetStateAction<string>>;
+    setDeleteErrorMessage: Dispatch<SetStateAction<string>>;
+  }
+}
+
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
-	showDeleteSuccess: boolean;
-	showDeleteError: boolean;
 	setShowDeleteSuccess: Dispatch<SetStateAction<boolean>>;
 	setShowDeleteError: Dispatch<SetStateAction<boolean>>;
+    setDeleteMessage: Dispatch<SetStateAction<string>>;
+    setDeleteErrorMessage: Dispatch<SetStateAction<string>>;
 }
 
 export function DataTable<TData, TValue>({
 	columns,
 	data,
-    showDeleteSuccess,
-    showError,
-    setShowSuccess,
-    setShowError
+    setShowDeleteSuccess,
+    setShowDeleteError,
+    setDeleteMessage,
+    setDeleteErrorMessage
 }: DataTableProps<TData, TValue>) {
 	const table = useReactTable({
 		data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
+        meta: { // the meta option of the tanstack-table is arbitrary context we pass to our table that can be accessed anywhere in our table. We can access this data through passing the 'table' parameter to add the 'table' context and going to 'table.options.meta.*' there we'll find this data we're passing here
+            setShowDeleteSuccess,
+            setShowDeleteError,
+            setDeleteMessage,
+            setDeleteErrorMessage
+        }
 	});
     
-    useEffect(() => {
-
-    })
-
 	return (
 		<Table>
 			<TableHeader>

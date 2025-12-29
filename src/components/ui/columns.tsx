@@ -11,6 +11,7 @@ import {
 	DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import { useFetcher } from "react-router";
+import { useEffect } from "react";
 
 export const columns: ColumnDef<Expense>[] = [
 	{
@@ -47,7 +48,7 @@ export const columns: ColumnDef<Expense>[] = [
 	},
 	{
 		id: "actions",
-		cell: ({ row }) => {
+		cell: ({ row, table }) => {
 			const expense = row.original;
 			const fetcher = useFetcher<{
 				success: boolean;
@@ -55,8 +56,18 @@ export const columns: ColumnDef<Expense>[] = [
 				error?: string;
 			}>();
 
-            
-            
+            useEffect(() => {
+                if (fetcher.state === "idle" && fetcher.data) {
+                    if (fetcher.data.success) {
+                        table.options.meta?.setDeleteMessage(fetcher.data.message);
+                        table.options.meta?.setShowDeleteSuccess(true);
+                    } else if (fetcher.data.error) {
+                        table.options.meta?.setDeleteErrorMessage(fetcher.data.error);
+                        table.options.meta?.setShowDeleteError(true);
+                    }
+                }
+            }, [fetcher.state, fetcher.data]);
+
 			return (
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
