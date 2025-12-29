@@ -113,14 +113,6 @@ export const columns: ColumnDef<Expense>[] = [
 								</Button>
 							</fetcher.Form>
 						</DropdownMenuItem>
-						<DropdownMenuItem
-							onClick={() =>
-								navigator.clipboard.writeText(expense.id)
-							}
-							className="cursor-pointer text-zinc-300 hover:outline-0 hover:bg-zinc-600 py-1.5 px-3 my-1 rounded-md transition-all duration-200"
-						>
-							Update Expense
-						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			);

@@ -27,12 +27,12 @@ export function CustomBarChart({ expensesByCategory }: CustomBarChartProps) {
     }));
 
     return (
-        <Card className="border-0 shadow-none bg-transparent">
+        <Card className="border-0 px-0 shadow-none bg-transparent">
             <CardHeader>
                 <CardTitle>Expenses Amount By Category</CardTitle>
             </CardHeader>
 
-            <CardContent>
+            <CardContent className="px-0 lg:px-4">
                 <ChartContainer config={chartConfig} className="min-h-52 max-h-125 aspect-square w-full">
                     <BarChart accessibilityLayer data={chartData}>
                         <CartesianGrid vertical={false} />
