@@ -189,7 +189,7 @@ export function Dashboard() {
                     <RadarChartCard expensesByCategoryPromise={expensesByCategoryPromise} />
                 </Suspense>
             </div>
-            <div className="col-span-1 lg:col-span-10 h-fit bg-zinc-200 border border-gray-200 rounded-xl p-8 shadow-cool-inner-strong overflow-hidden">
+            <div className="col-span-1 lg:col-span-10 h-fit bg-zinc-200 border border-gray-200 rounded-xl p-3 lg:p-8 shadow-cool-inner-strong overflow-hidden">
                 <Suspense fallback={
                     <div className="flex items-center justify-center min-h-[400px]">
                         <Spinner />
