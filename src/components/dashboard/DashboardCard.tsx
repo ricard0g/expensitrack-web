@@ -22,11 +22,11 @@ export function DashboardCard({
         )}>
             <div className="flex items-center justify-center gap-x-4 w-full rounded-md">
                 <div className="flex items-center justify-center gap-x-2">
-                    <Icon className="h-5 w-5 lg:h-7 lg:w-7" />
-                    <span className="text-sm lg:text-xl">{label}:</span>
+                    <Icon className="h-5 w-5 lg:h-6 lg:w-6" />
+                    <span className="text-sm lg:text-lg">{label}:</span>
                 </div>
                 <div className="py-1 px-3 lg:py-2 lg:px-4 bg-accent-color-ligher rounded-md shadow-cool-medium">
-                    <p className="text-lg lg:text-2xl text-white">
+                    <p className="text-base lg:text-lg text-white">
                         {value}
                     </p>
                 </div>

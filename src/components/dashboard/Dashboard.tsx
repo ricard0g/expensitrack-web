@@ -27,7 +27,8 @@ interface LoaderExpenses {
 }
 
 
-function RemaininBudgetCard({ user, totalSpentPromise }: { user: User, totalSpentPromise: Promise<number> }) {
+function RemaininBudgetCard({ userDataPromise, totalSpentPromise }: { userDataPromise: Promise<User>, totalSpentPromise: Promise<number> }) {
+    const user = use(userDataPromise);
     const remainingBudget = user.totalBudget - use(totalSpentPromise);
 
     return (
@@ -35,6 +36,18 @@ function RemaininBudgetCard({ user, totalSpentPromise }: { user: User, totalSpen
             label="Remaining Budget"
             Icon={HandCoins}
             value={currencyFormatter(remainingBudget)}
+        />
+    )
+}
+
+function MonthlyBudgetCard({ userDataPromise }: { userDataPromise: Promise<User> }) {
+    const user = use(userDataPromise);
+
+    return (
+        <DashboardCard
+            label="Monthly Budget"
+            Icon={PiggyBank}
+            value={currencyFormatter(user.totalBudget)}
         />
     )
 }
@@ -48,7 +61,7 @@ function LastExpenseCard({ allExpensesPromise }: { allExpensesPromise: Promise<E
             label="Last Expense"
             Icon={History}
             value={
-                <p className="flex items-center justify-center gap-x-2 lg:gap-x-4 text-sm lg:text-xl text-white">
+                <p className="flex items-center justify-center gap-x-2 lg:gap-x-4 text-sm lg:text-lg text-white">
                     <span>{expenseName}</span> →{" "}
                     <span>{currencyFormatter(expenseAmount)}</span>
                 </p>
@@ -98,7 +111,6 @@ export function Dashboard() {
     const [deleteErrorMessage, setDeleteErrorMessage] = useState<string>("");
     const { userDataPromise, allExpensesPromise, expensesByCategoryPromise, totalSpentPromise } =
         useLoaderData<LoaderExpenses>();
-    const userData = use(userDataPromise);
 
     useEffect(() => {
         if (showDeleteSuccess) {
@@ -138,17 +150,19 @@ export function Dashboard() {
                     </Alert>
                 )}
             </div>
-            <DashboardCard
-                label="Monthly Budget"
-                Icon={PiggyBank}
-                value={currencyFormatter(userData.totalBudget)}
-            />
             <Suspense fallback={
                 <div className="flex items-center justify-start col-span-1 lg:col-span-3 min-h-20 max-h-16 h-16 lg:max-h-20 lg:h-20 py-2 px-8 bg-linear-to-tr from-gray-100 to-accent-color-lightest rounded-md shadow-cool-subtle">
                     <Spinner />
                 </div>
             }>
-                <RemaininBudgetCard user={userData} totalSpentPromise={totalSpentPromise} />
+                <MonthlyBudgetCard userDataPromise={userDataPromise} />
+            </Suspense>
+            <Suspense fallback={
+                <div className="flex items-center justify-start col-span-1 lg:col-span-3 min-h-20 max-h-16 h-16 lg:max-h-20 lg:h-20 py-2 px-8 bg-linear-to-tr from-gray-100 to-accent-color-lightest rounded-md shadow-cool-subtle">
+                    <Spinner />
+                </div>
+            }>
+                <RemaininBudgetCard userDataPromise={userDataPromise} totalSpentPromise={totalSpentPromise} />
             </Suspense>
             <Suspense fallback={
                 <div className="flex items-center justify-start col-span-1 lg:col-span-4 min-h-20 max-h-16 h-16 lg:max-h-20 lg:h-20 py-2 px-8 bg-linear-to-tr from-gray-100 to-accent-color-lightest rounded-md shadow-cool-subtle">

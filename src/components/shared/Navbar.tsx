@@ -68,12 +68,56 @@ function SelectComponent({ categoriesPromise }: { categoriesPromise: Promise<Exp
     )
 }
 
+function UserGreeting({ userDataPromise }: { userDataPromise: Promise<User> }) {
+    const { firstName } = use(userDataPromise);
+    return (
+        <span className="hidden md:inline">
+            Hi {firstName}!
+        </span>
+    )
+}
+
+function UserProfileCard({ userDataPromise, openCard }: { userDataPromise: Promise<User>, openCard: boolean }) {
+    const { firstName, middleName, lastName } = use(userDataPromise);
+
+    return (
+        <Card
+            className={`absolute block left-0 top-full mt-2 w-64 bg-gray-100 border-gray-200  ${openCard ? "opacity-100 z-10" : "opacity-0"
+                } transition-opacity duration-200`}
+        >
+            <CardHeader>
+                <CardTitle className="mb-1.5 text-zinc-800">
+                    Your Data:
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
+                <ul className="flex flex-col gap-y-0.5">
+                    <li>
+                        <p className="text-zinc-600">
+                            First Name: {firstName}
+                        </p>
+                    </li>
+                    <div>
+                        <p className="text-zinc-600">
+                            Middle Name: {middleName}
+                        </p>
+                    </div>
+                    <div>
+                        <p className="text-zinc-600">
+                            Last Name: {lastName}
+                        </p>
+                    </div>
+                </ul>
+            </CardContent>
+        </Card>
+    )
+}
+
 export function Navbar() {
     const [openCard, setOpenCard] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
     const { userDataPromise, categoriesPromise } = useLoaderData() as LoaderData;
-    const userData = use(userDataPromise);
     const fetcher = useFetcher<{
         success?: boolean;
         message?: string;
@@ -96,8 +140,6 @@ export function Navbar() {
         }
     }, [fetcher.state, fetcher.data]);
 
-    const { firstName, middleName, lastName } = userData;
-
     const handleClick = () => setOpenCard(!openCard);
 
     return (
@@ -113,9 +155,9 @@ export function Navbar() {
                         >
                             <CircleUserRound />
                         </Button>
-                        <span className="hidden md:inline">
-                            Hi {firstName}!
-                        </span>
+                        <Suspense fallback={<span className="hidden md:inline">Loading...</span>}>
+                            <UserGreeting userDataPromise={userDataPromise} />
+                        </Suspense>
                     </li>
                     <li>
                         <Dialog>
@@ -254,35 +296,9 @@ export function Navbar() {
                     </li>
                 </ul>
             </nav>
-            <Card
-                className={`absolute block left-0 top-full mt-2 w-64 bg-gray-100 border-gray-200  ${openCard ? "opacity-100 z-10" : "opacity-0"
-                    } transition-opacity duration-200`}
-            >
-                <CardHeader>
-                    <CardTitle className="mb-1.5 text-zinc-800">
-                        Your Data:
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <ul className="flex flex-col gap-y-0.5">
-                        <li>
-                            <p className="text-zinc-600">
-                                First Name: {firstName}
-                            </p>
-                        </li>
-                        <div>
-                            <p className="text-zinc-600">
-                                Middle Name: {middleName}
-                            </p>
-                        </div>
-                        <div>
-                            <p className="text-zinc-600">
-                                Last Name: {lastName}
-                            </p>
-                        </div>
-                    </ul>
-                </CardContent>
-            </Card>
+            <Suspense fallback={null}>
+                <UserProfileCard userDataPromise={userDataPromise} openCard={openCard} />
+            </Suspense>
         </header>
     );
 }

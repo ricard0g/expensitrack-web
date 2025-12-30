@@ -9,7 +9,9 @@ import {
     DialogTitle,
 } from "./components/ui/dialog"
 import { Spinner } from "./components/ui/spinner"
-import { Suspense } from 'react'
+import { Suspense, use, useState } from 'react'
+import { useLoaderData } from 'react-router'
+import type { User } from './types/user'
 
 function StartupDialog() {
     return (
@@ -30,14 +32,28 @@ function StartupDialog() {
     )
 }
 
+function WaitForBackend({ children }: { children: React.ReactNode }) {
+    const { userDataPromise } = useLoaderData() as { userDataPromise: Promise<User> };
+    const [shouldBlock] = useState(() => !sessionStorage.getItem("backend_woken_up"));
+
+    if (shouldBlock) {
+        use(userDataPromise);
+        sessionStorage.setItem("backend_woken_up", "true");
+    }
+
+    return <>{children}</>;
+}
+
 function App() {
     return (
         <section className='max-w-full h-auto'>
             <Suspense fallback={<StartupDialog />}>
-                <Navbar />
-                <main>
-                    <Dashboard />
-                </main>
+                <WaitForBackend>
+                    <Navbar />
+                    <main>
+                        <Dashboard />
+                    </main>
+                </WaitForBackend>
             </Suspense>
         </section>
     )
