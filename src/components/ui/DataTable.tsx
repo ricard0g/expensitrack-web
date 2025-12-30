@@ -86,9 +86,9 @@ export function DataTable<TData, TValue>({
 								<TableCell
 									className={`py-3 text-center text-zinc-700 ${
 										cell.column.id === "actions" &&
-										"max-w-8 text-left"
+										"max-w-16 lg:max-w-8 text-left"
 									} ${
-										cell.column.id === "id" && "max-w-14"
+										cell.column.id === "id" && "max-w-20 w-20 lg:max-w-14"
 									} ${
 										cell.column.id === "expenseAmount" &&
 										"font-bold"
