@@ -10,7 +10,7 @@ import { DashboardErrorBoundary } from "./components/dashboard/DashboardErrorBou
 import type { ExpenseCategory } from "./types/category.ts";
 import type { DeletionError } from "./types/deletionError.ts";
 
-const APP_HOST = import.meta.env.VITE_APP_HOST_DEV;
+const APP_HOST = import.meta.env.VITE_APP_HOST;
 
 const headers = {
     "Content-Type": "application/json",
