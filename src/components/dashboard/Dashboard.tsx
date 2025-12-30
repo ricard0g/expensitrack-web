@@ -180,7 +180,7 @@ export function Dashboard() {
                     <BarChartCard expensesByCategoryPromise={expensesByCategoryPromise} />
                 </Suspense>
             </div>
-            <div className="col-span-1 lg:col-span-4 min-h-[500px] h-fit bg-linear-to-bl from-40% from-gray-100 to-accent-color-lightest border border-gray-200 rounded-xl p-3 shadow-cool-subtle ">
+            <div className="col-span-1 lg:col-span-4 lg:min-h-[500px] h-fit bg-linear-to-bl from-40% from-gray-100 to-accent-color-lightest border border-gray-200 rounded-xl p-3 shadow-cool-subtle ">
                 <Suspense fallback={
                     <div className="flex items-center justify-center min-h-[450px]">
                         <Spinner />
