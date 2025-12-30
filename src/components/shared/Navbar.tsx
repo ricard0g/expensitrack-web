@@ -29,7 +29,7 @@ import type { ExpenseCategory } from "@/types/category";
 // import { Spinner } from "../ui/spinner";
 
 interface LoaderData {
-    userData: User;
+    userDataPromise: Promise<User>;
     categoriesPromise: Promise<ExpenseCategory[]>;
 }
 
@@ -72,7 +72,8 @@ export function Navbar() {
     const [openCard, setOpenCard] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
-    const { userData, categoriesPromise } = useLoaderData() as LoaderData;
+    const { userDataPromise, categoriesPromise } = useLoaderData() as LoaderData;
+    const userData = use(userDataPromise);
     const fetcher = useFetcher<{
         success?: boolean;
         message?: string;

@@ -20,7 +20,7 @@ import { DashboardCard } from "./DashboardCard";
 import { Spinner } from "../ui/spinner";
 
 interface LoaderExpenses {
-    userData: User;
+    userDataPromise: Promise<User>;
     allExpensesPromise: Promise<Expense[]>;
     expensesByCategoryPromise: Promise<ExpenseByCategory[]>;
     totalSpentPromise: Promise<number>;
@@ -96,8 +96,9 @@ export function Dashboard() {
     const [showDeleteError, setShowDeleteError] = useState<boolean>(false);
     const [deleteMessage, setDeleteMessage] = useState<string>("");
     const [deleteErrorMessage, setDeleteErrorMessage] = useState<string>("");
-    const { userData, allExpensesPromise, expensesByCategoryPromise, totalSpentPromise } =
+    const { userDataPromise, allExpensesPromise, expensesByCategoryPromise, totalSpentPromise } =
         useLoaderData<LoaderExpenses>();
+    const userData = use(userDataPromise);
 
     useEffect(() => {
         if (showDeleteSuccess) {

@@ -148,7 +148,7 @@ const router = createBrowserRouter([
         ErrorBoundary: DashboardErrorBoundary,
         loader: async () => {
             // await to load navbar as fast as possible
-            const userData = await getUserData();
+            const userDataPromise = getUserData();
 
             // asynchronously handle these
             const allExpenses = getAllExpenses();
@@ -158,7 +158,7 @@ const router = createBrowserRouter([
 
 
             return {
-                userData,
+                userDataPromise,
                 allExpensesPromise: allExpenses,
                 expensesByCategoryPromise: expensesByCategory,
                 totalSpentPromise: totalSpent,
