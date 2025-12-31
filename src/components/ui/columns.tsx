@@ -40,10 +40,10 @@ const ActionsCell = ({ row, table }: ActionsCellProps) => {
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger className="h-24 w-24" asChild>
                 <Button variant="ghost" className="h-8 w-8 p-0 ml-auto">
                     <span className="sr-only">Open Menu</span>
-                    <MoreHorizontal className="h-4 w-4 p-0" />
+                    <MoreHorizontal className="size-4 p-0" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
