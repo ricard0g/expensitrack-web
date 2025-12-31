@@ -26,9 +26,9 @@ export function DashboardCard({
                     <span className="text-sm lg:text-lg">{label}:</span>
                 </div>
                 <div className="py-1 px-3 lg:py-2 lg:px-4 bg-accent-color-ligher rounded-md shadow-cool-medium">
-                    <p className="text-base lg:text-lg text-white">
+                    <div className="text-base lg:text-lg text-white">
                         {value}
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>

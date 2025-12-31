@@ -135,7 +135,7 @@ export function Navbar() {
         } else if (fetcher.data?.error) {
             setShowError(true);
             setShowSuccess(false);
-            const timer = setTimeout(() => setShowError(false));
+            const timer = setTimeout(() => setShowError(false), 8000);
             return () => clearTimeout(timer);
         }
     }, [fetcher.state, fetcher.data]);
