@@ -13,8 +13,6 @@ import type { DeletionError } from "./types/deletionError.ts";
 // APP_HOST is empty string to target Proxy
 const APP_HOST = "";
 
-console.log(`${APP_HOST}/api/categories`);
-
 const headers = {
     "Content-Type": "application/json",
 };

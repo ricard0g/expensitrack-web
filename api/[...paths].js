@@ -15,7 +15,9 @@ export default async function handler(request) {
 	console.log("Requesting to this path --> " + path);
 
 	// The endpoint we'll request
-	const targetUrl = process.env.VITE_APP_HOST + path;
+	const targetUrl = process.env.VITE_APP_HOST + path + "/";
+
+	console.log("Here the Target URL --> " + targetUrl);
 
 	const headers = new Headers(request.headers);
 
@@ -35,16 +37,20 @@ export default async function handler(request) {
 		console.log("👉 Response From Backend:");
 		console.log(backendResponse);
 
+		const responseHeaders = new Headers(backendResponse.headers);
+		responseHeaders.delete("content-encoding");
+		responseHeaders.delete("transfer-encoding");
+
 		return new Response(backendResponse.body, {
 			status: backendResponse.status,
 			statusText: backendResponse.statusText,
-			headers: backendResponse.headers,
+			headers: responseHeaders,
 		});
 	} catch (e) {
 		console.log("❌ SOMETHING WENT WRONG:");
 		console.log(e);
 		return new Response(
-			JSON.stringify({ error: "Proxy Failed", details: error.message }),
+			JSON.stringify({ error: "Proxy Failed", details: e.message }),
 			{
 				status: 500,
 				headers: { "Content-Type": "application/json" },
