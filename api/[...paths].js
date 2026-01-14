@@ -17,7 +17,7 @@ module.exports = (req, res) => {
 		changeOrigin: true,
 		on: {
 			proxyReq: (proxyReq) => {
-				proxyReq.setHeader("API_VALUE", process.env.VITE_APP_API_KEY);
+				proxyReq.setHeader("API_KEY", process.env.VITE_APP_API_KEY);
 			},
 		},
 	});
