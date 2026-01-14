@@ -13,12 +13,14 @@ import type { DeletionError } from "./types/deletionError.ts";
 // APP_HOST is empty string to target Proxy
 const APP_HOST = "";
 
+console.log(`${APP_HOST}/api/categories`);
+
 const headers = {
     "Content-Type": "application/json",
 };
 
 const getCategories = async (): Promise<ExpenseCategory[]> => {
-    const response = await fetch(`${APP_HOST}/api/categories/`, {
+    const response = await fetch(`${APP_HOST}/api/categories`, {
         headers: headers,
     });
 
@@ -38,7 +40,7 @@ const getExpensesByCategory = async (): Promise<ExpenseByCategory[]> => {
 };
 
 const getAllExpenses = async (): Promise<Expense[]> => {
-    const response = await fetch(`${APP_HOST}/api/expenses/`, {
+    const response = await fetch(`${APP_HOST}/api/expenses`, {
         headers: headers,
     });
 

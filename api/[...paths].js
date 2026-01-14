@@ -1,3 +1,4 @@
+console.log("🚪 Inside the Proxy now!");
 export const config = {
 	runtime: "edge",
 };
@@ -30,8 +31,8 @@ export default async function handler(request) {
 			body: request.body,
 			duplex: "half",
 		});
-		
-		console.log('👉 Response From Backend:')
+
+		console.log("👉 Response From Backend:");
 		console.log(backendResponse);
 
 		return new Response(backendResponse.body, {
@@ -40,7 +41,7 @@ export default async function handler(request) {
 			headers: backendResponse.headers,
 		});
 	} catch (e) {
-		console.log("❌ SOMETHING WENT WRONG:")
+		console.log("❌ SOMETHING WENT WRONG:");
 		console.log(e);
 		return new Response(
 			JSON.stringify({ error: "Proxy Failed", details: error.message }),
