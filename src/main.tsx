@@ -10,11 +10,11 @@ import { DashboardErrorBoundary } from "./components/dashboard/DashboardErrorBou
 import type { ExpenseCategory } from "./types/category.ts";
 import type { DeletionError } from "./types/deletionError.ts";
 
-const APP_HOST = import.meta.env.VITE_APP_HOST;
+// APP_HOST is empty string to target Proxy
+const APP_HOST = "";
 
 const headers = {
     "Content-Type": "application/json",
-    API_KEY: import.meta.env.VITE_APP_API_KEY,
 };
 
 const getCategories = async (): Promise<ExpenseCategory[]> => {
