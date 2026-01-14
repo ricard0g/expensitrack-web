@@ -15,7 +15,7 @@ export default async function handler(request) {
 	console.log("Requesting to this path --> " + path);
 
 	// The endpoint we'll request
-	const targetUrl = process.env.VITE_APP_HOST + path + "/";
+	const targetUrl = process.env.VITE_APP_HOST + path;
 
 	console.log("Here the Target URL --> " + targetUrl);
 
