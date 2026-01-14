@@ -1,26 +1,36 @@
-import { createProxyMiddleware } from "http-proxy-middleware";
-import dotenv from "dotenv";
-import path from "path";
+export default async function handler(request) {
+	const url = new URL(request.url);
+	const path = url.pathname.replace(/^\/api/, ""); // Remove 'api' from the path
 
-const envFile =
-	process.env.NODE_ENV === "production"
-		? ".env.production"
-		: ".env.development";
+	// The endpoint we'll request
+	const targetUrl = process.env.VITE_APP_HOST + path;
 
-dotenv.config({ path: path.resolve(process.cwd(), envFile) });
+	const headers = new Headers(request.headers);
 
-module.exports = (req, res) => {
-	const target = process.env.VITE_APP_HOST;
+	headers.set("API_KEY", process.env.VITE_APP_API_KEY);
 
-	const proxy = createProxyMiddleware({
-		target: target,
-		changeOrigin: true,
-		on: {
-			proxyReq: (proxyReq) => {
-				proxyReq.setHeader("API_KEY", process.env.VITE_APP_API_KEY);
-			},
-		},
-	});
+	headers.delete("host");
+	headers.delete("connection");
 
-	return proxy(req, res);
-};
+	try {
+		const backendResponse = await fetch(targetUrl, {
+			method: request.method,
+			headers: headers,
+			body: request.body,
+		});
+
+		return new Response(backendResponse.body, {
+			status: backendResponse.status,
+			statusText: backendResponse.statusText,
+			headers: backendResponse.headers,
+		});
+	} catch (e) {
+		return new Response(
+			JSON.stringify({ error: "Proxy Failed", details: error.message }),
+			{
+				status: 500,
+				headers: { "Content-Type": "application/json" },
+			}
+		);
+	}
+}
