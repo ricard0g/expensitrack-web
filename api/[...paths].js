@@ -3,8 +3,15 @@ export const config = {
 };
 
 export default async function handler(request) {
+	console.log("🚪 Inside the Proxy now!");
+
 	const url = new URL(request.url);
+
+	console.log("This is the request URL --> " + url);
+
 	const path = url.pathname.replace(/^\/api/, ""); // Remove 'api' from the path
+
+	console.log("Requesting to this path --> " + path);
 
 	// The endpoint we'll request
 	const targetUrl = process.env.VITE_APP_HOST + path;
@@ -23,6 +30,9 @@ export default async function handler(request) {
 			body: request.body,
 			duplex: "half",
 		});
+		
+		console.log('👉 Response From Backend:')
+		console.log(backendResponse);
 
 		return new Response(backendResponse.body, {
 			status: backendResponse.status,
@@ -30,6 +40,8 @@ export default async function handler(request) {
 			headers: backendResponse.headers,
 		});
 	} catch (e) {
+		console.log("❌ SOMETHING WENT WRONG:")
+		console.log(e);
 		return new Response(
 			JSON.stringify({ error: "Proxy Failed", details: error.message }),
 			{
