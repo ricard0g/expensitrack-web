@@ -1,3 +1,7 @@
+export const config = {
+	runtime: "edge",
+};
+
 export default async function handler(request) {
 	const url = new URL(request.url);
 	const path = url.pathname.replace(/^\/api/, ""); // Remove 'api' from the path
@@ -17,6 +21,7 @@ export default async function handler(request) {
 			method: request.method,
 			headers: headers,
 			body: request.body,
+			duplex: "half",
 		});
 
 		return new Response(backendResponse.body, {
