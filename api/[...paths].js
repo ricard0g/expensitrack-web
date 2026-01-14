@@ -10,7 +10,7 @@ const envFile =
 dotenv.config({ path: path.resolve(process.cwd(), envFile) });
 
 module.exports = (req, res) => {
-	const target = process.env.VITE_APP_HOST + "/";
+	const target = process.env.VITE_APP_HOST;
 
 	const proxy = createProxyMiddleware({
 		target: target,
