@@ -1,73 +1,54 @@
-# React + TypeScript + Vite
+# Expensitrack Web 🌐
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+--> [Expensitrack Backend Repo](https://github.com/ricard0g/expensitrack-api)
 
-Currently, two official plugins are available:
+A polished, high-performance frontend for the **Expensitrack** portfolio project. This dashboard visualizes personal finances using **React 19** and advanced **React Router v7** patterns, secured by a custom proxy architecture.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![React](https://img.shields.io/badge/React-v19-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-v5-blue)
 
-## React Compiler
+## 🚀 Key Features & Architecture
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* **⚡ React Router v7 Data Strategy**: Uses `loaders` for parallel "render-as-you-fetch" data loading and `actions` for handling form submissions and mutations.
+* **🔐 Secure BFF Proxy**: Implements a Vercel Edge Function (`api/[...paths].js`) to inject the sensitive backend `API_KEY` server-side, ensuring it never leaks to the browser.js].
+* **📊 Visualization**: Interactive charts (Bar & Radar) powered by **Recharts** and data grids using **TanStack Table**.
+* **🎨 Modern Styling**: Built with **Tailwind CSS v4** and **Shadcn UI** components.
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* **Core**: React 19 (RC), TypeScript, Vite
+* **Routing**: React Router v7 (Data APIs)
+* **Styling**: Tailwind CSS v4, Radix UI (Shadcn)
+* **Data**: Recharts, TanStack Table
+* **Deployment**: Vercel (Edge Functions)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 💻 Quick Start
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1.  **Clone and Install**
+    ```bash
+    git clone [https://github.com/yourusername/expensitrack-web.git](https://github.com/yourusername/expensitrack-web.git)
+    cd expensitrack-web
+    npm install
+    ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2.  **Configure Environment**
+    Create a `.env` file in the root:
+    ```env
+    # The URL of your Spring Boot Backend (e.g., on Render)
+    VITE_APP_HOST=[https://your-backend.onrender.com](https://your-backend.onrender.com)
+    # Your backend security key
+    VITE_APP_API_KEY=your_secret_key
+    ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+3.  **Run Locally**
+    ```bash
+    npm run dev
+    ```
+    The app will proxy requests from `/api/*` to your backend, injecting the key automatically.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📦 Deployment
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Deploy to **Vercel** for best results.
+1.  Import project to Vercel.
+2.  Add `VITE_APP_HOST` and `VITE_APP_API_KEY` in Vercel Project Settings.
+3.  Deploy. The `vercel.json` configuration handles the proxy rewrites automatically.
