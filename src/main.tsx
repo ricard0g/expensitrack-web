@@ -88,7 +88,7 @@ const dashboardAction = async ({ request }: { request: Request }) => {
         switch (intent) {
             case "createExpense": {
                 const expenseData = {
-                    userFirstName: "Ricardo",
+                    userFirstName: "John",
                     categoryName: formData.get("category-name"),
                     expenseName: formData.get("expense-name"),
                     expenseDescription: formData.get("expense-description"),
@@ -96,7 +96,7 @@ const dashboardAction = async ({ request }: { request: Request }) => {
                     date: formData.get("date"),
                 };
 
-                await apiRequest("expenses/", "POST", expenseData);
+                await apiRequest("expenses", "POST", expenseData);
                 return {
                     success: true,
                     message: "Expense Created Successfully",
