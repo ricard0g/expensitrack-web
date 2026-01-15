@@ -1,4 +1,3 @@
-console.log("🚪 Inside the Proxy now!");
 export const config = {
 	runtime: "edge",
 };
