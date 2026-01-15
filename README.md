@@ -18,7 +18,7 @@ A polished, high-performance frontend for the **Expensitrack** portfolio project
 
 * **Core**: React 19 (RC), TypeScript, Vite
 * **Routing**: React Router v7 (Data APIs)
-* **Styling**: Tailwind CSS v4, Radix UI (Shadcn)
+* **Styling**: Tailwind CSS v4, Shadcn
 * **Data**: Recharts, TanStack Table
 * **Deployment**: Vercel (Edge Functions)
 
