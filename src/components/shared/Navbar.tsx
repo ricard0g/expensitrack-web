@@ -245,7 +245,7 @@ export function Navbar() {
                                             type="number"
                                             step="0.01"
                                             placeholder="0.00"
-                                            min="0"
+                                            min="1"
                                             className="col-span-3"
                                             required
                                         />
